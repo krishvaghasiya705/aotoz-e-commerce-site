@@ -95,7 +95,7 @@ export default function HomeCardSection() {
       }
 
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
-      window.dispatchEvent(new Event('cartChange')); // Notify cart change
+      window.dispatchEvent(new Event('cartChange'));
       console.log('Product added to cart:', cartItems);
     } catch (error) {
       console.error('Error adding product to cart:', error);
@@ -171,14 +171,15 @@ export default function HomeCardSection() {
                 key={product.id}
                 className="rounded-[16px] p-5 shadow-md border-[1px] border-[#00000014] grid grid-rows-[400px_1fr]"
               >
-                <div className="relative">
-                  <div className="absolute top-[50%] translate-y-[-50%] right-2.5 z-[9]">
+                <div className="relative group">
+                  <div className="absolute top-[50%] translate-y-[-50%] right-2.5 z-[10] opacity-0 transition-all duration-500 group-hover:opacity-[1]">
                     <div className="bg-[#000000b5] rounded-full w-[40px] h-[40px] cursor-pointer flex justify-center items-center">
                       <div className="w-[25px] h-[25px]">
                         <HeartIcon iconwhite />
                       </div>
                     </div>
                   </div>
+                  <div className="absolute w-full h-full before:opacity-[1] before:z-[9] before:contents before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black"></div>
                   <div
                     className="bg-gray-200 w-full h-full rounded-[12px] bg-center bg-no-repeat bg-contain mix-blend-multiply"
                     style={{ backgroundImage: `url("${product.thumbnail}")` }}
