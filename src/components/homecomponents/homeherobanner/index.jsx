@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Arrowicon from "../../../assets/svg/Arrowicon";
+import "./index.css"; // Import custom CSS for additional styling
 
 function SampleNextArrow(props) {
   const { onClick } = props;
@@ -28,12 +29,12 @@ export default function HomeHerobanner() {
 
   useEffect(() => {
     axios
-      .get("https://dummyjson.com/products/search?q=phone")
+      .get("https://fakestoreapi.com/products")
       .then((response) => {
-        const products = response.data.products;
+        const products = response.data;
         console.log("Fetched products:", products);
         const banners = products.map((product) => ({
-          imageUrl: product.thumbnail,
+          imageUrl: product.image,
           altText: product.title,
           title: product.title,
           description: product.description,
@@ -64,13 +65,13 @@ export default function HomeHerobanner() {
       <Slider {...settings}>
         {banners.map((banner, index) => (
           <div key={index}>
-            <div
-              className="relative h-[600px] bg-gray-300 bg-center bg-no-repeat bg-contain mix-blend-multiply"
-              style={{ backgroundImage: `url(${banner.imageUrl})` }}
-            >
-              <div className="absolute inset-0 bg-black bg-opacity-50 text-white p-4">
-                <div className="container h-full">
-                  <div className="flex flex-col justify-center items-center h-full text-center">
+            <div className="bg-gray-300">
+              <div
+                className="relative h-[600px] bg-center bg-no-repeat bg-contain mix-blend-multiply"
+                style={{ backgroundImage: `url(${banner.imageUrl})` }}
+              >
+                <div className="absolute inset-0 text-white p-4 flex flex-col justify-end items-center text-center transition-transform transform hover:scale-105">
+                  <div className="bg-black bg-opacity-70 p-4 rounded-md animate-fadeIn">
                     <h2 className="text-4xl font-bold mb-2 font-roboto">
                       {banner.title}
                     </h2>
