@@ -8,6 +8,7 @@ export default {
       fontFamily: {
         jaro: ['Jaro', 'serif'],
         roboto: ['Roboto', 'serif'],
+        playfair: ['Playfair Display', 'serif'],
       },
     },
   },

@@ -4,7 +4,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Arrowicon from "../../../assets/svg/Arrowicon";
-import "./index.css"; // Import custom CSS for additional styling
 
 function SampleNextArrow(props) {
   const { onClick } = props;
@@ -59,23 +58,36 @@ export default function HomeHerobanner() {
     fade: true,
     cssEase: "linear",
   };
-
   return (
-    <div className="overflow-hidden">
+    <section className="overflow-hidden">
       <Slider {...settings}>
         {banners.map((banner, index) => (
           <div key={index}>
             <div className="bg-gray-300">
               <div
-                className="relative h-[600px] bg-center bg-no-repeat bg-contain mix-blend-multiply"
+                className="relative h-[100vh] bg-right bg-no-repeat bg-auto mix-blend-multiply"
                 style={{ backgroundImage: `url(${banner.imageUrl})` }}
               >
-                <div className="absolute inset-0 text-white p-4 flex flex-col justify-end items-center text-center transition-transform transform hover:scale-105">
-                  <div className="bg-black bg-opacity-70 p-4 rounded-md animate-fadeIn">
-                    <h2 className="text-4xl font-bold mb-2 font-roboto">
-                      {banner.title}
-                    </h2>
-                    <p className="text-lg font-roboto">{banner.description}</p>
+                <div className="absolute top-0 left-0 h-full flex flex-col justify-center w-full">
+                  <div className="container">
+                    <div className="grid grid-cols-2">
+                      <div>
+                        <h1 className="text-[48px] leading-[60px] font-bold font-playfair capitalize max-w-[700px] mb-[30px] line-clamp-2">
+                          {banner.title}
+                        </h1>
+                        <p className="text-[20px] leading-[28px] font-semibold font-roboto max-w-[700px] line-clamp-3">
+                          {banner.description}
+                        </p>
+                        <div className="flex gap-5 items-center mt-5">
+                          <button className="py-2.5 px-10 border-[1px] border-black rounded-[6px] text-[18px] leading-[26px] font-semibold font-roboto text-white capitalize bg-black hover:bg-white hover:text-black trab">
+                            shop now
+                          </button>
+                          <button className="py-2.5 px-10 border-[1px] border-black rounded-[6px] text-[18px] leading-[26px] font-semibold font-roboto text-black capitalize hover:bg-black hover:text-white">
+                            new items
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -83,6 +95,6 @@ export default function HomeHerobanner() {
           </div>
         ))}
       </Slider>
-    </div>
+    </section>
   );
 }
