@@ -131,13 +131,18 @@ const Header = () => {
                   style: {
                     maxHeight: 500,
                     width: "300px",
+                    padding: 0,
                   },
                 }}
               >
-                <Typography variant="h6" component="div" sx={{ p: 2 }}>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{ p: 2, backgroundColor: "white", zIndex: 1 }}
+                >
                   Cart
                 </Typography>
-                <List>
+                <List sx={{ maxHeight: 300, overflow: "auto" }}>
                   {cartProducts.length === 0 ? (
                     <MenuItem onClick={handleCartMouseLeave}>
                       No products in cart
@@ -146,7 +151,7 @@ const Header = () => {
                     cartProducts.map((product) => (
                       <ListItem key={product.id} alignItems="flex-start">
                         <ListItemAvatar>
-                          <Avatar alt={product.title} src={product.thumbnail} />
+                          <Avatar alt={product.title} src={product.thumbnail || product.image} />
                         </ListItemAvatar>
                         <ListItemText
                           primary={product.title}
@@ -169,6 +174,7 @@ const Header = () => {
                       margin: "10px",
                       textAlign: "center",
                       justifyContent: "center",
+                      paddingTop: "10px",
                     }}
                   >
                     Go to Cart

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, IconButton } from '@mui/material';
+import { Button, IconButton, Pagination } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,6 +13,10 @@ export default function CartSection() {
   const [loading, setLoading] = useState(true);
   const [totalPrice, setTotalPrice] = useState(0);
   const [gst, setGst] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const [backupCartItems, setBackupCartItems] = useState([]);
+  const [showUndo, setShowUndo] = useState(false);
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -69,27 +73,74 @@ export default function CartSection() {
     window.dispatchEvent(new Event('cartChange')); // Notify cart change
   };
 
+  const handleClearAll = () => {
+    setBackupCartItems(cartItems);
+    setCartItems([]);
+    setShowUndo(true);
+    window.dispatchEvent(new Event('cartChange')); // Notify cart change
+
+    setTimeout(() => {
+      setShowUndo(false);
+    }, 10000); // Hide undo button after 10 seconds
+  };
+
+  const handleUndoClearAll = () => {
+    setCartItems(backupCartItems);
+    setBackupCartItems([]);
+    setShowUndo(false);
+    window.dispatchEvent(new Event('cartChange')); // Notify cart change
+  };
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const paginatedItems = cartItems.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="py-[120px]">
       <div className="container">
-        <h2 className="text-[24px] leading-[32px] font-semibold font-roboto text-black mb-4">
-          Cart Items
-        </h2>
+        <div className='flex justify-between items-center'>
+          <h2 className="text-[24px] leading-[32px] font-semibold font-roboto text-black mb-4">
+            Cart Items
+          </h2>
+          {cartItems.length > 0 && !showUndo && (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleClearAll}
+            >
+              Clear All
+            </Button>
+          )}
+          {showUndo && (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleUndoClearAll}
+            >
+              Undo
+            </Button>
+          )}
+        </div>
         {loading ? (
           <p>Loading...</p>
         ) : (
           <>
             <div className="grid grid-cols-1 gap-4">
-              {cartItems.map((item) => (
+              {paginatedItems.map((item) => (
                 <div
                   key={item.id}
                   className="rounded-[16px] p-5 shadow-md border-[1px] border-[#00000014] flex justify-between items-center"
                 >
                   <div className="flex items-center gap-4">
                     <img
-                      src={item.thumbnail}
+                      src={item.thumbnail || item.image}
                       alt={item.title}
-                      className="w-[100px] h-[100px] object-cover rounded-[12px]"
+                      className="w-[100px] h-[100px] object-scale-down rounded-[12px]"
                     />
                     <div>
                       <h3 className="text-[18px] leading-[28px] font-semibold font-roboto text-black">
@@ -124,6 +175,12 @@ export default function CartSection() {
                 </div>
               ))}
             </div>
+            <Pagination
+              count={Math.ceil(cartItems.length / itemsPerPage)}
+              page={currentPage}
+              onChange={handlePageChange}
+              className="mt-4 flex justify-center"
+            />
             <div className="mt-8 p-5 rounded-[16px] shadow-lg border-[1px] border-[#00000014] bg-white">
               <h3 className="text-[24px] leading-[32px] font-semibold font-roboto text-black mb-4">
                 Order Summary
