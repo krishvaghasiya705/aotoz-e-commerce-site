@@ -24,6 +24,7 @@ export default function HomeCardSection() {
   const [productType, setProductType] = useState("");
   const [noDataFound, setNoDataFound] = useState(false);
   const [productTypes, setProductTypes] = useState([]);
+  const [likedItems, setLikedItems] = useState([]);
   const itemsPerPage = 8;
 
   useEffect(() => {
@@ -64,6 +65,11 @@ export default function HomeCardSection() {
       }
     };
     fetchProducts();
+
+    const savedLikedItems = localStorage.getItem('likedItems');
+    if (savedLikedItems) {
+      setLikedItems(JSON.parse(savedLikedItems));
+    }
   }, [page, searchQuery, productType]);
 
   const handlePageChange = (event, value) => {
@@ -100,6 +106,18 @@ export default function HomeCardSection() {
     } catch (error) {
       console.error('Error adding product to cart:', error);
     }
+  };
+
+  const handleLike = (product) => {
+    let updatedLikedItems;
+    if (likedItems.some(item => item.id === product.id)) {
+      updatedLikedItems = likedItems.filter(item => item.id !== product.id);
+    } else {
+      updatedLikedItems = [...likedItems, product];
+    }
+    setLikedItems(updatedLikedItems);
+    localStorage.setItem('likedItems', JSON.stringify(updatedLikedItems));
+    window.dispatchEvent(new Event('likeChange'));
   };
 
   return (
@@ -173,9 +191,9 @@ export default function HomeCardSection() {
               >
                 <div className="relative group">
                   <div className="absolute top-[50%] translate-y-[-50%] right-2.5 z-[10] opacity-0 transition-all duration-500 group-hover:opacity-[1]">
-                    <div className="bg-[#000000b5] rounded-full w-[40px] h-[40px] cursor-pointer flex justify-center items-center">
+                    <div className="bg-[#000000b5] rounded-full w-[40px] h-[40px] cursor-pointer flex justify-center items-center" onClick={() => handleLike(product)}>
                       <div className="w-[25px] h-[25px]">
-                        <HeartIcon iconwhite />
+                        <HeartIcon iconred={likedItems.some(item => item.id === product.id)} iconwhite={!likedItems.some(item => item.id === product.id)} />
                       </div>
                     </div>
                   </div>

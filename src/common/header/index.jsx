@@ -23,6 +23,8 @@ import axios from "axios";
 const Header = () => {
   const [cartAnchorEl, setCartAnchorEl] = useState(null);
   const [cartProducts, setCartProducts] = useState([]);
+  const [likeAnchorEl, setLikeAnchorEl] = useState(null);
+  const [likedItems, setLikedItems] = useState([]);
 
   useEffect(() => {
     const fetchCartProducts = async () => {
@@ -37,19 +39,29 @@ const Header = () => {
     };
     fetchCartProducts();
 
-    // Listen for storage changes to update cart products
+    const savedLikedItems = localStorage.getItem('likedItems');
+    if (savedLikedItems) {
+      setLikedItems(JSON.parse(savedLikedItems));
+    }
+
     const handleStorageChange = () => {
       const savedCartItems = localStorage.getItem('cartItems');
       if (savedCartItems) {
         setCartProducts(JSON.parse(savedCartItems));
       }
+      const savedLikedItems = localStorage.getItem('likedItems');
+      if (savedLikedItems) {
+        setLikedItems(JSON.parse(savedLikedItems));
+      }
     };
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('cartChange', handleStorageChange);
+    window.addEventListener('likeChange', handleStorageChange);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('cartChange', handleStorageChange);
+      window.removeEventListener('likeChange', handleStorageChange);
     };
   }, []);
 
@@ -59,6 +71,14 @@ const Header = () => {
 
   const handleCartMouseLeave = () => {
     setCartAnchorEl(null);
+  };
+
+  const handleLikeMouseEnter = (event) => {
+    setLikeAnchorEl(event.currentTarget);
+  };
+
+  const handleLikeMouseLeave = () => {
+    setLikeAnchorEl(null);
   };
 
   return (
@@ -106,8 +126,76 @@ const Header = () => {
             <div className="w-[25px] h-[25px] cursor-pointer flex justify-center items-center opacity-50">
               <UserIcon />
             </div>
-            <div className="w-[25px] h-[25px] cursor-pointer flex justify-center items-center opacity-50">
-              <HeartIcon iconblack />
+            <div
+              onMouseEnter={handleLikeMouseEnter}
+              onMouseLeave={handleLikeMouseLeave}
+            >
+              <IconButton aria-label="likes">
+                <Badge badgeContent={likedItems.length} color="primary">
+                  <div className="w-[25px] h-[25px] cursor-pointer flex justify-center items-center opacity-50">
+                    <HeartIcon iconblack />
+                  </div>
+                </Badge>
+              </IconButton>
+              <Menu
+                anchorEl={likeAnchorEl}
+                open={Boolean(likeAnchorEl)}
+                onClose={handleLikeMouseLeave}
+                onClick={(event) => event.stopPropagation()}
+                PaperProps={{
+                  style: {
+                    maxHeight: 500,
+                    width: "300px",
+                    padding: 0,
+                  },
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{ p: 2, backgroundColor: "white", zIndex: 1 }}
+                >
+                  Liked Items
+                </Typography>
+                <List sx={{ maxHeight: 300, overflow: "auto" }}>
+                  {likedItems.length === 0 ? (
+                    <MenuItem onClick={handleLikeMouseLeave}>
+                      No liked items
+                    </MenuItem>
+                  ) : (
+                    likedItems.map((item) => (
+                      <ListItem key={item.id} alignItems="flex-start">
+                        <ListItemAvatar>
+                          <Avatar alt={item.title} src={item.imageUrl} />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={item.title}
+                          secondary={item.description}
+                        />
+                      </ListItem>
+                    ))
+                  )}
+                </List>
+                <NavLink to={"/liked"}>
+                  <MenuItem
+                    onClick={handleLikeMouseLeave}
+                    sx={{
+                      backgroundColor: "#1976d2",
+                      color: "white",
+                      "&:hover": {
+                        backgroundColor: "#1565c0",
+                      },
+                      borderRadius: "4px",
+                      margin: "10px",
+                      textAlign: "center",
+                      justifyContent: "center",
+                      paddingTop: "10px",
+                    }}
+                  >
+                    Go to Likes
+                  </MenuItem>
+                </NavLink>
+              </Menu>
             </div>
             <div
               onMouseEnter={handleCartMouseEnter}

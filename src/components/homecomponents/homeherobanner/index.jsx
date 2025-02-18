@@ -4,11 +4,12 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Arrowicon from "../../../assets/svg/Arrowicon";
+import HeartIcon from "../../../assets/svg/HeartIcon"; // Import HeartIcon
 
 function SampleNextArrow(props) {
   const { onClick } = props;
   return (
-    <div className="slick-arrow slick-next" onClick={onClick}>
+    <div className="slick-arrow slick-next !hidden" onClick={onClick}>
       <Arrowicon />
     </div>
   );
@@ -17,7 +18,7 @@ function SampleNextArrow(props) {
 function SamplePrevArrow(props) {
   const { onClick } = props;
   return (
-    <div className="slick-arrow slick-prev" onClick={onClick}>
+    <div className="slick-arrow slick-prev !hidden" onClick={onClick}>
       <Arrowicon />
     </div>
   );
@@ -25,6 +26,7 @@ function SamplePrevArrow(props) {
 
 export default function HomeHerobanner() {
   const [banners, setBanners] = useState([]);
+  const [likedItems, setLikedItems] = useState([]);
 
   useEffect(() => {
     axios
@@ -33,6 +35,7 @@ export default function HomeHerobanner() {
         const products = response.data;
         console.log("Fetched products:", products);
         const banners = products.map((product) => ({
+          id: product.id,
           imageUrl: product.image,
           altText: product.title,
           title: product.title,
@@ -43,7 +46,24 @@ export default function HomeHerobanner() {
       .catch((error) => {
         console.error("Error fetching products:", error);
       });
+
+    const savedLikedItems = localStorage.getItem('likedItems');
+    if (savedLikedItems) {
+      setLikedItems(JSON.parse(savedLikedItems));
+    }
   }, []);
+
+  const handleLike = (banner) => {
+    let updatedLikedItems;
+    if (likedItems.some(item => item.id === banner.id)) {
+      updatedLikedItems = likedItems.filter(item => item.id !== banner.id);
+    } else {
+      updatedLikedItems = [...likedItems, banner];
+    }
+    setLikedItems(updatedLikedItems);
+    localStorage.setItem('likedItems', JSON.stringify(updatedLikedItems));
+    window.dispatchEvent(new Event('likeChange'));
+  };
 
   const settings = {
     dots: true,
@@ -57,6 +77,7 @@ export default function HomeHerobanner() {
     autoplaySpeed: 3000,
     fade: true,
     cssEase: "linear",
+    pauseOnHover: false
   };
   return (
     <section className="overflow-hidden">
@@ -84,6 +105,16 @@ export default function HomeHerobanner() {
                           </button>
                           <button className="py-2.5 px-10 border-[1px] border-black rounded-[6px] text-[18px] leading-[26px] font-semibold font-roboto text-black capitalize hover:bg-black hover:text-white">
                             new items
+                          </button>
+                          <button
+                            className="p-2.5 border-[1px] border-black rounded-[6px]"
+                            onClick={() => handleLike(banner)}
+                          >
+                            <div className="w-[26px] h-[26px]">
+                              <HeartIcon
+                                iconred={likedItems.some(item => item.id === banner.id)} iconblack={!likedItems.some(item => item.id === banner.id)}
+                              />
+                            </div>
                           </button>
                         </div>
                       </div>
