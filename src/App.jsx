@@ -7,6 +7,7 @@ import './App.css';
 import Cart from "./pages/cart";
 import Formpage from "./pages/form";
 import Liked from "./pages/like";
+import Homecardsdetails from "./pages/homecardsdetails";
 
 const App = () => {
   useEffect(() => {
@@ -14,7 +15,7 @@ const App = () => {
     (function(){
       var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
       s1.async = true;
-      s1.src = 'https://embed.tawk.to/67b4212d167f1f1900573b77/1ikbq37ed';
+      s1.src = 'https://embed.tawk.to/67b4212d167f1f1900573b77/1ikcffqg1';
       s1.charset = 'UTF-8';
       s1.setAttribute('crossorigin', '*');
       s0.parentNode.insertBefore(s1, s0);
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/liked" element={<Liked />} />
           <Route path="/formpage" element={<Formpage />} />
+          <Route path="/productcardsdetails/:productTitle" element={<Homecardsdetails />} />
         </Routes>
       </main>
       

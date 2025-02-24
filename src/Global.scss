@@ -75,6 +75,7 @@ p {
         rotate: 180deg;
     }
 }
+
 .slick-prev {
     left: 50px;
 
@@ -88,5 +89,35 @@ p {
         path {
             fill: #363842;
         }
+    }
+}
+
+#u8m483t31j0g1739879513538 {
+    display: none;
+}
+
+.header-effect {
+    position: relative;
+
+    &:hover {
+        &::before {
+            transform: scaleX(1);
+            transform-origin: left;
+            transition: transform .3s ease-in-out;
+        }
+    }
+
+    &::before {
+        background-color: #000;
+        position: absolute;
+        content: "";
+        z-index: 1;
+        bottom: -5px;
+        height: 2px;
+        left: 0;
+        right: 0;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform .3s ease-in-out;
     }
 }

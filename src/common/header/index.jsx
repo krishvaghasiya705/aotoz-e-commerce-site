@@ -88,25 +88,25 @@ const Header = () => {
           <div className="flex items-center gap-5">
             <NavLink
               to={"/"}
-              className="text-[20px] font-semibold leading-[25px] font-jaro text-black uppercase"
+              className="text-[20px] font-semibold leading-[25px] font-jaro text-black uppercase header-effect"
             >
               home
             </NavLink>
             <NavLink
               to={"/"}
-              className="text-[20px] font-semibold leading-[25px] font-jaro text-black uppercase"
+              className="text-[20px] font-semibold leading-[25px] font-jaro text-black uppercase header-effect"
             >
               template
             </NavLink>
             <NavLink
               to={"/"}
-              className="text-[20px] font-semibold leading-[25px] font-jaro text-black uppercase"
+              className="text-[20px] font-semibold leading-[25px] font-jaro text-black uppercase header-effect"
             >
               docs
             </NavLink>
             <NavLink
               to={"/"}
-              className="text-[20px] font-semibold leading-[25px] font-jaro text-black uppercase"
+              className="text-[20px] font-semibold leading-[25px] font-jaro text-black uppercase header-effect"
             >
               sale
             </NavLink>
@@ -166,7 +166,7 @@ const Header = () => {
                     likedItems.map((item) => (
                       <ListItem key={item.id} alignItems="flex-start">
                         <ListItemAvatar>
-                          <Avatar alt={item.title} src={item.imageUrl} />
+                          <Avatar alt={item.title} src={item.imageUrl || item.image} />
                         </ListItemAvatar>
                         <ListItemText
                           primary={item.title}
