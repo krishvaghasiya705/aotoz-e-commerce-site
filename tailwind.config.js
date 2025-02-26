@@ -5,6 +5,14 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        laptop: { max: "1500px" },
+        xl: { max: "1440px" },
+        tab: { max: "1180px" },
+        ipad: { max: "900px" },
+        minitab: { max: "768px" },
+        mobile: { max: "576px" },
+      },
       fontFamily: {
         jaro: ['Jaro', 'serif'],
         roboto: ['Roboto', 'serif'],

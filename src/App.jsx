@@ -31,7 +31,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/liked" element={<Liked />} />
           <Route path="/formpage" element={<Formpage />} />
-          <Route path="/productcardsdetails/:productTitle" element={<Homecardsdetails />} />
+          <Route path="/productcardsdetails/:productId/:productTitle" element={<Homecardsdetails />} />
         </Routes>
       </main>
       

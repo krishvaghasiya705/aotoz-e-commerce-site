@@ -186,7 +186,7 @@ export default function HomeCardSection() {
             </div>
           ) : (
             products.map((product) => (
-              <Link to={`/productcardsdetails/${product.title}`} key={product.id}>
+              <Link to={`/productcardsdetails/${product.id}/${product.title}`} key={product.id}>
                 <div className="rounded-[16px] p-5 shadow-md border-[1px] border-[#00000014] grid grid-rows-[400px_1fr]">
                   <div className="relative group">
                     <div className="absolute top-[50%] translate-y-[-50%] right-2.5 z-[10] opacity-0 transition-all duration-500 group-hover:opacity-[1]">

@@ -29,7 +29,7 @@ const Header = () => {
   useEffect(() => {
     const fetchCartProducts = async () => {
       try {
-        const savedCartItems = localStorage.getItem('cartItems');
+        const savedCartItems = localStorage.getItem("cartItems");
         if (savedCartItems) {
           setCartProducts(JSON.parse(savedCartItems));
         }
@@ -39,29 +39,29 @@ const Header = () => {
     };
     fetchCartProducts();
 
-    const savedLikedItems = localStorage.getItem('likedItems');
+    const savedLikedItems = localStorage.getItem("likedItems");
     if (savedLikedItems) {
       setLikedItems(JSON.parse(savedLikedItems));
     }
 
     const handleStorageChange = () => {
-      const savedCartItems = localStorage.getItem('cartItems');
+      const savedCartItems = localStorage.getItem("cartItems");
       if (savedCartItems) {
         setCartProducts(JSON.parse(savedCartItems));
       }
-      const savedLikedItems = localStorage.getItem('likedItems');
+      const savedLikedItems = localStorage.getItem("likedItems");
       if (savedLikedItems) {
         setLikedItems(JSON.parse(savedLikedItems));
       }
     };
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('cartChange', handleStorageChange);
-    window.addEventListener('likeChange', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("cartChange", handleStorageChange);
+    window.addEventListener("likeChange", handleStorageChange);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('cartChange', handleStorageChange);
-      window.removeEventListener('likeChange', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("cartChange", handleStorageChange);
+      window.removeEventListener("likeChange", handleStorageChange);
     };
   }, []);
 
@@ -166,7 +166,10 @@ const Header = () => {
                     likedItems.map((item) => (
                       <ListItem key={item.id} alignItems="flex-start">
                         <ListItemAvatar>
-                          <Avatar alt={item.title} src={item.imageUrl || item.image} />
+                          <Avatar
+                            alt={item.title}
+                            src={item.imageUrl || item.image}
+                          />
                         </ListItemAvatar>
                         <ListItemText
                           primary={item.title}
@@ -239,7 +242,10 @@ const Header = () => {
                     cartProducts.map((product) => (
                       <ListItem key={product.id} alignItems="flex-start">
                         <ListItemAvatar>
-                          <Avatar alt={product.title} src={product.thumbnail || product.image} />
+                          <Avatar
+                            alt={product.title}
+                            src={product.thumbnail || product.image}
+                          />
                         </ListItemAvatar>
                         <ListItemText
                           primary={product.title}

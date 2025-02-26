@@ -5,21 +5,20 @@ import axios from 'axios';
 import Loader from '../../components/loader';
 
 export default function Homecardsdetails() {
-  const { productTitle } = useParams();
+  const { productId, productTitle } = useParams();
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://dummyjson.com/products`);
-        const product = response.data.products.find(p => p.title.toLowerCase() === productTitle.toLowerCase());
-        setProduct(product);
+        const response = await axios.get(`https://dummyjson.com/products/${productId}`);
+        setProduct(response.data);
       } catch (error) {
         console.error('Error fetching product details:', error);
       }
     };
     fetchProduct();
-  }, [productTitle]);
+  }, [productId]);
 
   return (
     <div>
