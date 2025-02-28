@@ -8,6 +8,7 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { auth } from "../../firebase/config";
+import Whitebg from "../../assets/images/shapebg.png";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -110,99 +111,123 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center font-roboto">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        {error && (
-          <div className="mb-4 p-2 bg-red-100 text-red-600 rounded-md text-center">
-            {error}
-          </div>
-        )}
-        {message && (
-          <div className="mb-4 p-2 bg-blue-100 text-blue-600 rounded-md text-center">
-            {message}
-          </div>
-        )}
-        <form onSubmit={handleEmailLogin}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              placeholder="Enter your email"
-              required
-            />
-            {error && <span className="text-red-500">{error}</span>}
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full p-2 border rounded-md pr-10"
-                placeholder="Enter your password"
-                required
-              />
-              {error && <span className="text-red-500">{error}</span>}
+    <div className="relative font-roboto w-full h-full">
+      <video
+        autoPlay
+        loop
+        muted
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src="video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div className="min-h-screen w-full h-full bg-black bg-opacity-50 relative z-10">
+        <div className="absolute top-0 left-0 w-full h-full z-10 opacity-70">
+          <img
+            src={Whitebg}
+            alt="white-bg"
+            className="w-full h-full object-fill"
+          />
+        </div>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-[500px] relative z-[11]">
+            <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+            {error && (
+              <div className="mb-4 p-2 bg-red-100 text-red-600 rounded-md text-center">
+                {error}
+              </div>
+            )}
+            {message && (
+              <div className="mb-4 p-2 bg-blue-100 text-blue-600 rounded-md text-center">
+                {message}
+              </div>
+            )}
+            <form onSubmit={handleEmailLogin}>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded-md"
+                  placeholder="Enter your email"
+                  required
+                />
+                {error && <span className="text-red-500">{error}</span>}
+              </div>
+              <div className="mb-6">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded-md pr-10"
+                    placeholder="Enter your password"
+                    required
+                  />
+                  {error && <span className="text-red-500">{error}</span>}
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <FaEyeSlash size={16} />
+                    ) : (
+                      <FaEye size={16} />
+                    )}
+                  </button>
+                </div>
+              </div>
               <button
-                type="button"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                onClick={() => setShowPassword(!showPassword)}
+                type="submit"
+                disabled={loading}
+                className={`w-full p-2 rounded-md ${
+                  loading
+                    ? "bg-blue-300 cursor-not-allowed"
+                    : "bg-blue-500 hover:bg-blue-600"
+                } text-white mb-4`}
               >
-                {showPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
+                {loading ? "Logging in..." : "Login"}
               </button>
-            </div>
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full p-2 rounded-md ${
-              loading
-                ? "bg-blue-300 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600"
-            } text-white mb-4`}
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
+            </form>
 
-        <div className="relative mb-4">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">
-              Or continue with
-            </span>
+            <div className="relative mb-4">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              disabled={loading}
+              className="w-full p-2 mb-4 border border-gray-300 rounded-md flex items-center justify-center gap-2 hover:bg-gray-50"
+            >
+              <FcGoogle size={20} />
+              <span>Sign in with Google</span>
+            </button>
+
+            <p className="text-center">
+              Don't have an account?{" "}
+              <Link to="/signup" className="text-blue-500 hover:text-blue-600">
+                Sign up
+              </Link>
+            </p>
           </div>
         </div>
-
-        <button
-          type="button"
-          onClick={handleGoogleLogin}
-          disabled={loading}
-          className="w-full p-2 mb-4 border border-gray-300 rounded-md flex items-center justify-center gap-2 hover:bg-gray-50"
-        >
-          <FcGoogle size={20} />
-          <span>Sign in with Google</span>
-        </button>
-
-        <p className="text-center">
-          Don't have an account?{" "}
-          <Link to="/signup" className="text-blue-500 hover:text-blue-600">
-            Sign up
-          </Link>
-        </p>
       </div>
     </div>
   );
