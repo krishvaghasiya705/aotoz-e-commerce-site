@@ -1,0 +1,11 @@
+/* Import the Jaro font */
+@import url('https://fonts.googleapis.com/css2?family=Jaro&display=swap');
+
+.auth-layout {
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

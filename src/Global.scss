@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+img {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+a {
+    text-decoration-line: none;
+}
+
+span {
+    display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.slick-track {
+    display: flex;
+}
+
+.slick-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #00000036;
+    z-index: 9;
+    background-color: #fff !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+.slick-next {
+    right: 50px;
+
+    &::before {
+        content: "";
+    }
+
+    svg {
+        rotate: 180deg;
+    }
+}
+
+.slick-prev {
+    left: 50px;
+
+    &::before {
+        content: "";
+    }
+}
+
+.cards-rating {
+    svg {
+        path {
+            fill: #363842;
+        }
+    }
+}
+
+#u8m483t31j0g1739879513538 {
+    display: none;
+}
+
+.header-effect {
+    position: relative;
+
+    &:hover {
+        &::before {
+            transform: scaleX(1);
+            transform-origin: left;
+            transition: transform .3s ease-in-out;
+        }
+    }
+
+    &::before {
+        background-color: #000;
+        position: absolute;
+        content: "";
+        z-index: 1;
+        bottom: -5px;
+        height: 2px;
+        left: 0;
+        right: 0;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform .3s ease-in-out;
+    }
+}
