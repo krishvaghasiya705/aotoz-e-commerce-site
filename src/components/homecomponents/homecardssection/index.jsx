@@ -47,7 +47,6 @@ export default function HomeCardSection() {
               )) &&
             (productType ? product.tags.includes(productType) : true)
         );
-        console.log("allProducts++++++++++++++", allProducts);
         setProducts(
           filteredProducts.slice((page - 1) * itemsPerPage, page * itemsPerPage)
         );

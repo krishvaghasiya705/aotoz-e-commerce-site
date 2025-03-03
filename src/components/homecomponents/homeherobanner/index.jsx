@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Arrowicon from "../../../assets/svg/Arrowicon";
-import HeartIcon from "../../../assets/svg/HeartIcon"; // Import HeartIcon
+import HeartIcon from "../../../assets/svg/HeartIcon";
 
 function SampleNextArrow(props) {
   const { onClick } = props;
@@ -33,7 +33,6 @@ export default function HomeHerobanner() {
       .get("https://fakestoreapi.com/products")
       .then((response) => {
         const products = response.data;
-        console.log("Fetched products:", products);
         const banners = products.map((product) => ({
           id: product.id,
           imageUrl: product.image,
@@ -47,7 +46,7 @@ export default function HomeHerobanner() {
         console.error("Error fetching products:", error);
       });
 
-    const savedLikedItems = localStorage.getItem('likedItems');
+    const savedLikedItems = localStorage.getItem("likedItems");
     if (savedLikedItems) {
       setLikedItems(JSON.parse(savedLikedItems));
     }
@@ -55,14 +54,14 @@ export default function HomeHerobanner() {
 
   const handleLike = (banner) => {
     let updatedLikedItems;
-    if (likedItems.some(item => item.id === banner.id)) {
-      updatedLikedItems = likedItems.filter(item => item.id !== banner.id);
+    if (likedItems.some((item) => item.id === banner.id)) {
+      updatedLikedItems = likedItems.filter((item) => item.id !== banner.id);
     } else {
       updatedLikedItems = [...likedItems, banner];
     }
     setLikedItems(updatedLikedItems);
-    localStorage.setItem('likedItems', JSON.stringify(updatedLikedItems));
-    window.dispatchEvent(new Event('likeChange'));
+    localStorage.setItem("likedItems", JSON.stringify(updatedLikedItems));
+    window.dispatchEvent(new Event("likeChange"));
   };
 
   const settings = {
@@ -77,7 +76,7 @@ export default function HomeHerobanner() {
     autoplaySpeed: 3000,
     fade: true,
     cssEase: "linear",
-    pauseOnHover: false
+    pauseOnHover: false,
   };
   return (
     <section className="overflow-hidden">
@@ -112,7 +111,14 @@ export default function HomeHerobanner() {
                           >
                             <div className="w-[26px] h-[26px]">
                               <HeartIcon
-                                iconred={likedItems.some(item => item.id === banner.id)} iconblack={!likedItems.some(item => item.id === banner.id)}
+                                iconred={likedItems.some(
+                                  (item) => item.id === banner.id
+                                )}
+                                iconblack={
+                                  !likedItems.some(
+                                    (item) => item.id === banner.id
+                                  )
+                                }
                               />
                             </div>
                           </button>

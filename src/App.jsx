@@ -12,6 +12,8 @@ import Liked from "./pages/like";
 import Homecardsdetails from "./pages/homecardsdetails";
 import Login from "./pages/auth/login";
 import Signup from "./pages/auth/signup";
+import AdminLogin from "./pages/adminui/login";
+import AdminPanel from "./pages/adminui/panel";
 
 // Layout for authenticated users
 const MainLayout = ({ children }) => (
@@ -74,12 +76,19 @@ const App = () => {
   //   })();
   // }, []);
 
+  // fetch("https://aotoz-api.onrender.com/products/1")
+  //   .then((response) => response.json())
+  //   .then((data) => console.log(data)) // Logs product data
+  //   .catch((error) => console.error("Error:", error));
+
   return (
     <Routes>
       {/* Auth Routes */}
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/adminpanel" element={<AdminPanel />} />
       </Route>
 
       {/* Protected Routes */}

@@ -42,8 +42,7 @@ export default function HomeSliderSection() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("https://fakestoreapi.com/products");
-        console.log("API response:", response.data); // Log the response data
-        const allProducts = response.data; // Adjust this line based on the actual structure
+        const allProducts = response.data;
         setProducts(allProducts);
         setNoDataFound(allProducts.length === 0);
         setLoading(false);
