@@ -56,6 +56,12 @@ const ProtectedRoute = ({ children }) => {
     return () => unsubscribe();
   }, [navigate]);
 
+  useEffect(() => {
+    if (!isAuthenticated && !isValidating) {
+      navigate("/login", { replace: true });
+    }
+  }, [isAuthenticated, isValidating, navigate]);
+
   if (isValidating) {
     return <div>Loading...</div>; // Or your loading component
   }
@@ -87,8 +93,6 @@ const App = () => {
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/adminpanel" element={<AdminPanel />} />
       </Route>
 
       {/* Protected Routes */}
@@ -129,6 +133,22 @@ const App = () => {
         element={
           <ProtectedRoute>
             <Homecardsdetails />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute>
+            <AdminLogin />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/adminpanel"
+        element={
+          <ProtectedRoute>
+            <AdminPanel />
           </ProtectedRoute>
         }
       />

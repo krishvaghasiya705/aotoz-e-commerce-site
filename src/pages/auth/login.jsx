@@ -48,7 +48,11 @@ const Login = () => {
         formData.password
       );
 
-      navigate("/", { replace: true });
+      if (formData.email === "admin@gmail.com" && formData.password === "7874982802") {
+        navigate("/adminpanel", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
     } catch (err) {
       let errorMessage = "Failed to login";
       switch (err.code) {
