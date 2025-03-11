@@ -34,7 +34,7 @@ const AuthLayout = () => (
 );
 
 // Protected Route component
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, adminOnly }) => {
   const navigate = useNavigate();
   const [isValidating, setIsValidating] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -44,6 +44,10 @@ const ProtectedRoute = ({ children }) => {
       if (user) {
         setIsAuthenticated(true);
         localStorage.setItem("user", JSON.stringify(user));
+        if (adminOnly && user.email !== "admin@gmail.com") {
+          setIsAuthenticated(false);
+          navigate("/", { replace: true });
+        }
       } else {
         setIsAuthenticated(false);
         localStorage.removeItem("user");
@@ -54,7 +58,7 @@ const ProtectedRoute = ({ children }) => {
 
     // Cleanup subscription
     return () => unsubscribe();
-  }, [navigate]);
+  }, [navigate, adminOnly]);
 
   useEffect(() => {
     if (!isAuthenticated && !isValidating) {
@@ -137,17 +141,9 @@ const App = () => {
         }
       />
       <Route
-        path="/admin"
-        element={
-          <ProtectedRoute>
-            <AdminLogin />
-          </ProtectedRoute>
-        }
-      />
-      <Route
         path="/adminpanel"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute adminOnly>
             <AdminPanel />
           </ProtectedRoute>
         }
