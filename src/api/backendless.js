@@ -2,13 +2,11 @@ const APP_ID = "78C4C319-125F-4394-8C37-49107C7D8A98";
 const API_KEY = "FAABB6D8-F052-4B82-B98E-15253B1DDBB3";
 const BASE_URL = `https://api.backendless.com/${APP_ID}/${API_KEY}/data/Products`;
 
-// Get all products
 export const getAllProducts = async () => {
   const response = await fetch(BASE_URL);
   return response.json();
 };
 
-// Add a new product
 export const addProduct = async (productData) => {
   const response = await fetch(BASE_URL, {
     method: "POST",
@@ -18,7 +16,6 @@ export const addProduct = async (productData) => {
   return response.json();
 };
 
-// Update a product
 export const updateProduct = async (productId, updatedData) => {
   const response = await fetch(`${BASE_URL}/${productId}`, {
     method: "PUT",
@@ -28,7 +25,6 @@ export const updateProduct = async (productId, updatedData) => {
   return response.json();
 };
 
-// Get product by ID
 export const getProductById = async (productId) => {
   const response = await fetch(`${BASE_URL}/${productId}`);
   return response.json();

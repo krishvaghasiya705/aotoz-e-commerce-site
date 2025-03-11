@@ -45,10 +45,14 @@ const ProductList = () => {
                 </div>
 
                 <div className="absolute w-full h-full before:opacity-[1] before:z-[9] before:contents before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black"></div>
-                <div
-                  className="bg-gray-200 w-full h-full rounded-[12px] bg-center bg-no-repeat bg-contain mix-blend-multiply"
-                  style={{ backgroundImage: `url("${product.imageUrls[0]}")` }}
-                ></div>
+                <div className="w-full h-full bg-gray-200 rounded-[12px]">
+                  <div
+                    className="w-full h-full bg-center bg-no-repeat bg-contain mix-blend-multiply"
+                    style={{
+                      backgroundImage: `url("${product.imageUrls[0]}")`,
+                    }}
+                  ></div>
+                </div>
               </div>
               <div className="pt-2.5 flex flex-col justify-between gap-5">
                 <div>
