@@ -27,3 +27,9 @@ export const updateProduct = async (productId, updatedData) => {
   });
   return response.json();
 };
+
+// Get product by ID
+export const getProductById = async (productId) => {
+  const response = await fetch(`${BASE_URL}/${productId}`);
+  return response.json();
+};
