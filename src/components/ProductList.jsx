@@ -78,7 +78,7 @@ const ProductList = () => {
                     <div>
                       <div className="flex items-center gap-2.5">
                         <del className="text-[16px] font-semibold font-roboto opacity-50">
-                          ${parseFloat(product.price + 20).toFixed(2)}
+                          {product.currency === "USD" ? `$${parseFloat(product.price + 20).toFixed(2)}` : `₹${parseFloat(product.price + 20).toFixed(2)}`}
                         </del>
                         <button className="border-none rounded-[3px] bg-blue-200 p-[3px]">
                           <span className="text-blue-600 text-[12px] font-semibold font-roboto block">
@@ -87,7 +87,7 @@ const ProductList = () => {
                         </button>
                       </div>
                       <h3 className="text-[28px] leading-[30px] font-roboto text-black font-semibold">
-                        ${product.price}
+                        {product.currency === "USD" ? `$${product.price}` : `₹${product.price}`}
                       </h3>
                     </div>
                     <button className="border-none rounded-[8px] bg-blue-600 cursor-pointer p-2.5 flex justify-center items-center">
