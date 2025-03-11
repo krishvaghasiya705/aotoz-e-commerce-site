@@ -8,11 +8,22 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
+import Uploadicon from "../assets/svg/Uploadicon";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const BACKENDLESS_URL =
   "https://api.backendless.com/78C4C319-125F-4394-8C37-49107C7D8A98/FAABB6D8-F052-4B82-B98E-15253B1DDBB3/data/Products";
+const BACKENDLESS_UPLOAD_URL =
+  "https://backendlessappcontent.com/78C4C319-125F-4394-8C37-49107C7D8A98/FAABB6D8-F052-4B82-B98E-15253B1DDBB3/files/upload";
 
-const ManageProducts = ({ handleSubmit, handleChange, formData }) => (
+const ManageProducts = ({
+  handleSubmit,
+  handleChange,
+  handleImageUpload,
+  handleRemoveImage,
+  formData,
+  imagePreviews,
+}) => (
   <div>
     <Typography variant="h4" gutterBottom>
       Manage Products
@@ -53,12 +64,7 @@ const ManageProducts = ({ handleSubmit, handleChange, formData }) => (
           />
         </Grid>
         <Grid item xs={6}>
-          <TextField
-            label="SKU"
-            name="SKU"
-            fullWidth
-            onChange={handleChange}
-          />
+          <TextField label="SKU" name="SKU" fullWidth onChange={handleChange} />
         </Grid>
         <Grid item xs={6}>
           <TextField
@@ -104,12 +110,37 @@ const ManageProducts = ({ handleSubmit, handleChange, formData }) => (
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            label="Image URLs (comma-separated)"
-            name="imageUrls"
-            fullWidth
-            onChange={handleChange}
-          />
+          <div className="grid grid-cols-5 gap-[10px]">
+            <div className="relative w-full h-[200px] cursor-pointer border-2 rounded-[6px] border-black border-dashed flex justify-center items-center flex-col">
+              <div className="w-[50px] h-[50px]">
+                <Uploadicon />
+              </div>
+              <span>Upload Images</span>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleImageUpload}
+                className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+              />
+            </div>
+            {imagePreviews.map((src, index) => (
+              <div
+                key={index}
+                className="relative border border-black rounded-[6px] w-full h-[200px] p-[10px]"
+              >
+                <CancelIcon
+                  className="absolute top-0 right-0 cursor-pointer"
+                  onClick={() => handleRemoveImage(index)}
+                />
+                <img
+                  src={src}
+                  alt={`Image-preview-${index}`}
+                  className="w-full h-full"
+                />
+              </div>
+            ))}
+          </div>
         </Grid>
         <Grid item xs={6}>
           <TextField
@@ -131,12 +162,7 @@ const ManageProducts = ({ handleSubmit, handleChange, formData }) => (
           />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-          >
+          <Button type="submit" variant="contained" color="primary" fullWidth>
             Add Product
           </Button>
         </Grid>
@@ -158,13 +184,55 @@ const ProductForm = () => {
     stock: "",
     colorOptions: "",
     sizeOptions: "",
-    imageUrls: "",
+    imageUrls: [],
     discount: "",
   });
+
+  const [imagePreviews, setImagePreviews] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleImageUpload = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length + imagePreviews.length > 10) {
+      alert("You can upload a maximum of 10 images.");
+      return;
+    }
+
+    const newImagePreviews = [];
+    const newImageUrls = [];
+
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await axios.post(BACKENDLESS_UPLOAD_URL, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        const imageUrl = response.data.fileURL;
+        newImagePreviews.push(imageUrl);
+        newImageUrls.push(imageUrl);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        alert("Error uploading image. Check console for details.");
+      }
+    }
+
+    setImagePreviews([...imagePreviews, ...newImagePreviews]);
+    setFormData({ ...formData, imageUrls: [...formData.imageUrls, ...newImageUrls] });
+  };
+
+  const handleRemoveImage = (index) => {
+    const newImagePreviews = imagePreviews.filter((_, i) => i !== index);
+    const newImageUrls = formData.imageUrls.filter((_, i) => i !== index);
+    setImagePreviews(newImagePreviews);
+    setFormData({ ...formData, imageUrls: newImageUrls });
   };
 
   const handleSubmit = async (e) => {
@@ -182,9 +250,6 @@ const ProductForm = () => {
       sizeOptions: formData.sizeOptions
         ? formData.sizeOptions.split(",").map((s) => s.trim())
         : [],
-      imageUrls: formData.imageUrls
-        ? formData.imageUrls.split(",").map((url) => url.trim())
-        : [],
     };
 
     try {
@@ -201,7 +266,10 @@ const ProductForm = () => {
       <ManageProducts
         handleSubmit={handleSubmit}
         handleChange={handleChange}
+        handleImageUpload={handleImageUpload}
+        handleRemoveImage={handleRemoveImage}
         formData={formData}
+        imagePreviews={imagePreviews}
       />
     </div>
   );
